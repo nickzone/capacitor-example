@@ -18,7 +18,10 @@ function App() {
   return (
     <Router>
       <div className={`min-h-screen ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
-        <div className="max-w-md mx-auto pb-16">
+        {/* 添加顶部安全区域边距 */}
+        <div className="safe-top"></div>
+        
+        <div className="max-w-md mx-auto pb-16 safe-area-x">
           <Routes>
             <Route path="/" element={<Navigate to="/home" replace />} />
             <Route path="/home" element={<Home />} />
@@ -27,7 +30,12 @@ function App() {
             <Route path="/my" element={<My />} />
           </Routes>
         </div>
+        
+        {/* 底部导航栏添加安全区域边距 */}
         <BottomTabBar />
+        
+        {/* 添加底部额外的安全区域边距 */}
+        <div className="safe-bottom"></div>
       </div>
     </Router>
   )

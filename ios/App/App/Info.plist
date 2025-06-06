@@ -45,5 +45,11 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>需要访问您的相机以拍摄照片并添加到日记中</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>需要访问您的相册以保存照片</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>需要访问您的相册以选择照片并添加到日记中</string>
 </dict>
 </plist>

@@ -7,6 +7,40 @@ body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* 防止内容被iOS底部Home指示器遮挡 */
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
-/* Additional custom styles can be added here */
+/* iOS安全区域边距 */
+:root {
+  --sat: env(safe-area-inset-top);
+  --sar: env(safe-area-inset-right);
+  --sab: env(safe-area-inset-bottom);
+  --sal: env(safe-area-inset-left);
+}
+
+/* 安全区域边距工具类 */
+.safe-top {
+  padding-top: var(--sat);
+}
+
+.safe-bottom {
+  padding-bottom: var(--sab);
+}
+
+.safe-area-x {
+  padding-left: var(--sal);
+  padding-right: var(--sar);
+}
+
+.safe-area-y {
+  padding-top: var(--sat);
+  padding-bottom: var(--sab);
+}
+
+.safe-area {
+  padding-top: var(--sat);
+  padding-right: var(--sar);
+  padding-bottom: var(--sab);
+  padding-left: var(--sal);
+}
