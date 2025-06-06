@@ -28,6 +28,7 @@ const useDiaryStore = create(
         tags: [],
         mood: 'neutral',  // 情绪: happy, sad, neutral 等
         weather: 'sunny', // 天气: sunny, cloudy, rainy 等
+        photos: [],       // 照片数组，存储照片的base64或路径
       },
       
       // 设置当前编辑的日记
@@ -43,6 +44,7 @@ const useDiaryStore = create(
           tags: [],
           mood: 'neutral',
           weather: 'sunny',
+          photos: [],
         }
       }),
       

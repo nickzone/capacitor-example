@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import useDiaryStore from '../../store/diaryStore';
 import useSettingsStore from '../../store/settingsStore';
 
@@ -71,6 +72,40 @@ const Editor = () => {
   // 移除标签
   const handleRemoveTag = (tagToRemove) => {
     updateCurrentDiary('tags', currentDiary.tags.filter(tag => tag !== tagToRemove));
+  };
+  
+  // 拍照或从相册选择照片
+  const takePicture = async () => {
+    try {
+      // 检查并请求相机权限
+      const permissionStatus = await Camera.checkPermissions();
+      if (permissionStatus.camera !== 'granted') {
+        await Camera.requestPermissions();
+      }
+      
+      // 拍照或选择照片
+      const image = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: false,
+        resultType: CameraResultType.DataUrl,  // 使用base64格式，便于存储
+        source: CameraSource.Prompt,  // 提示用户选择相机或相册
+      });
+      
+      // 将照片添加到当前日记
+      if (image && image.dataUrl) {
+        updateCurrentDiary('photos', [...currentDiary.photos, image.dataUrl]);
+      }
+    } catch (error) {
+      console.error('无法拍照或选择照片:', error);
+      alert('无法拍照或选择照片，请检查相机权限');
+    }
+  };
+  
+  // 移除照片
+  const handleRemovePhoto = (index) => {
+    const updatedPhotos = [...currentDiary.photos];
+    updatedPhotos.splice(index, 1);
+    updateCurrentDiary('photos', updatedPhotos);
   };
   
   // 根据设置应用字体大小
@@ -180,6 +215,42 @@ const Editor = () => {
             value={currentDiary.content}
             onChange={(e) => updateCurrentDiary('content', e.target.value)}
           />
+        </div>
+        
+        {/* 照片 */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">照片</label>
+          <div className="flex items-center space-x-2">
+            <button
+              className="py-2 px-4 bg-blue-500 text-white rounded-lg flex items-center"
+              onClick={takePicture}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M4 5a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-1.586a1 1 0 01-.707-.293l-1.121-1.121A2 2 0 0011.172 3H8.828a2 2 0 00-1.414.586L6.293 4.707A1 1 0 015.586 5H4zm6 9a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" />
+              </svg>
+              拍照
+            </button>
+          </div>
+          
+          {currentDiary.photos && currentDiary.photos.length > 0 && (
+            <div className="grid grid-cols-3 gap-2 mt-2">
+              {currentDiary.photos.map((photo, index) => (
+                <div key={index} className="relative">
+                  <img 
+                    src={photo} 
+                    alt={`照片 ${index + 1}`} 
+                    className="w-full h-24 object-cover rounded-md"
+                  />
+                  <button
+                    className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center"
+                    onClick={() => handleRemovePhoto(index)}
+                  >
+                    &times;
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
         
         {/* 标签 */}
