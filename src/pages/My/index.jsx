@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import useDiaryStore from '../../store/diaryStore';
 import useSettingsStore from '../../store/settingsStore';
 
 const My = () => {
+  const navigate = useNavigate();
   const { getStats } = useDiaryStore();
   const { 
     theme, setTheme, 
@@ -12,7 +14,7 @@ const My = () => {
   } = useSettingsStore();
   
   const [name, setName] = useState(userProfile.name);
-  const [activeTab, setActiveTab] = useState('stats'); // 'stats', 'theme', 'profile'
+  const [activeTab, setActiveTab] = useState('stats'); // 'stats', 'theme', 'profile', 'api'
   
   // 获取统计数据
   const stats = getStats();
@@ -49,7 +51,7 @@ const My = () => {
       
       {/* 选项卡 */}
       <div className="px-4 border-b border-gray-200">
-        <div className="flex space-x-6">
+        <div className="flex space-x-6 overflow-x-auto">
           <button 
             className={`py-2 ${activeTab === 'stats' ? 'border-b-2 border-blue-500 text-blue-500' : 'text-gray-500'}`}
             onClick={() => setActiveTab('stats')}
@@ -67,6 +69,12 @@ const My = () => {
             onClick={() => setActiveTab('profile')}
           >
             个人信息
+          </button>
+          <button 
+            className={`py-2 ${activeTab === 'api' ? 'border-b-2 border-blue-500 text-blue-500' : 'text-gray-500'}`}
+            onClick={() => setActiveTab('api')}
+          >
+            API测试
           </button>
         </div>
       </div>
@@ -199,6 +207,41 @@ const My = () => {
             
             {/* 可以添加更多个人信息设置 */}
             
+          </div>
+        )}
+        
+        {/* API测试面板 */}
+        {activeTab === 'api' && (
+          <div className="space-y-4">
+            <h3 className="text-lg font-medium">Capacitor API 测试</h3>
+            <p className="text-gray-500 mb-4">测试 Capacitor 提供的各种原生功能</p>
+            
+            <button 
+              className="w-full py-3 px-4 bg-blue-500 text-white rounded-md flex items-center justify-center"
+              onClick={() => navigate('/test')}
+            >
+              <span className="mr-2">进入 API 测试页面</span>
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+              </svg>
+            </button>
+            
+            <div className="mt-4 bg-blue-50 p-4 rounded-lg">
+              <h4 className="font-medium text-blue-800 mb-2">可测试的 API 包括：</h4>
+              <ul className="text-sm text-blue-700 space-y-1">
+                <li>• Action Sheet - 操作表单</li>
+                <li>• App - 应用信息</li>
+                <li>• Camera - 相机</li>
+                <li>• Clipboard - 剪贴板</li>
+                <li>• Device - 设备信息</li>
+                <li>• Dialog - 对话框</li>
+                <li>• Filesystem - 文件系统</li>
+                <li>• Geolocation - 地理位置</li>
+                <li>• Haptics - 触觉反馈</li>
+                <li>• Network - 网络状态</li>
+                <li>• Toast - 提示消息</li>
+              </ul>
+            </div>
           </div>
         )}
       </div>

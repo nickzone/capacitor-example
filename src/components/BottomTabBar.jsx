@@ -13,8 +13,8 @@ const BottomTabBar = () => {
   };
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex justify-around items-center h-14 shadow-lg">
-      <div className="flex w-full safe-area-x">
+    <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex justify-around items-center shadow-lg">
+      <div className="flex w-full safe-area-x safe-bottom">
         <Link 
           to="/home" 
           className={`flex flex-col items-center justify-center w-1/3 py-1 ${

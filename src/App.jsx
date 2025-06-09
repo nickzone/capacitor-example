@@ -4,6 +4,7 @@ import BottomTabBar from './components/BottomTabBar'
 import Home from './pages/Home'
 import Editor from './pages/Editor'
 import My from './pages/My'
+import Test from './pages/Test'
 import useSettingsStore from './store/settingsStore'
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
             <Route path="/editor" element={<Editor />} />
             <Route path="/editor/:id" element={<Editor />} />
             <Route path="/my" element={<My />} />
+            <Route path="/test" element={<Test />} />
           </Routes>
         </div>
         
