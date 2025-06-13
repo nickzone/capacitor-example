@@ -5,6 +5,7 @@ import Home from './pages/Home'
 import Editor from './pages/Editor'
 import My from './pages/My'
 import Test from './pages/Test'
+import NotFound from './pages/NotFound'
 import useSettingsStore from './store/settingsStore'
 
 function App() {
@@ -30,6 +31,8 @@ function App() {
             <Route path="/editor/:id" element={<Editor />} />
             <Route path="/my" element={<My />} />
             <Route path="/test" element={<Test />} />
+            {/* 404页面路由配置 */}
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
         
